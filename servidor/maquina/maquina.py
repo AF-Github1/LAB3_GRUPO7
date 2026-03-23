@@ -1,13 +1,16 @@
 from servidor.processa_cliente import ProcessaCliente
 import servidor
 import socket
+from dados.dados import Dados
+from servidor.operacoes.somar import Somar
 
 class Maquina:
 	def __init__(self):
 		self.s = socket.socket()
 		self.s.bind(('', servidor.PORT))
 		self.s.listen(35000)
-
+		self.sum = Somar() 
+		self.dados = Dados() 
 
 	#def execute(self,command:str):
 	def execute(self):
