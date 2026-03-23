@@ -4,11 +4,13 @@ from servidor.operacoes import somar
 import json
 
 class ProcessaCliente(threading.Thread):
-    def __init__(self, connection, address):
+    def __init__(self, connection, address, dados):
         super().__init__()
         self.connection = connection
         self.address = address
         self.sum = somar.Somar()
+        self.dados = dados
+        
 
 #----------interaction with sockets ---------------
     def receive_int(self, n_bytes: int) -> int:
@@ -62,9 +64,12 @@ class ProcessaCliente(threading.Thread):
             if request_type == servidor.ADD_OP:
                 x = self.receive_int(servidor.INT_SIZE)
                 y = self.receive_int(servidor.INT_SIZE)
-                print(f"[{self.address}] Somar: {x} + {y}")
+                print(self.address,":somar ",x," + ", y)
                 result = self.sum.execute(x, y)
                 self.send_int(result, servidor.INT_SIZE)
+                self.dados.registar_oper('soma', x, y, result, self.address)
+                print(self.address,": registada uma soma com os operandos ",x," e ",y,
+                      "com o resultado ",result, "para o cliente", self.address)
             elif request_type == servidor.SUB_OP:
                 pass
             elif request_type == servidor.END_OP:

@@ -18,3 +18,4 @@ class Dados:
             if oper not in self.operacoes: 
                 self.operacoes[oper] = [] 
             self.operacoes[oper].append(registo)
+            print(self.operacoes)

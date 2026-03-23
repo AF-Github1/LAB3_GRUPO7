@@ -9,18 +9,18 @@ class Maquina:
 		self.s = socket.socket()
 		self.s.bind(('', servidor.PORT))
 		self.s.listen(35000)
-		self.sum = Somar() 
-		self.dados = Dados() 
+		self.sum = Somar()
+		self.dados = Dados()
 
-	#def execute(self,command:str):
 	def execute(self):
 		print("Waiting for clients on port " + str(servidor.PORT))
 		while True: # Loop infinito para múltiplos clients
 			print("On accept...")
 			connection, address = self.s.accept()
 			print("Client", address, " connected")
-			processa = ProcessaCliente(connection, address)
-			processa.start() # Arranca thread após ligação
+			processo_cliente = ProcessaCliente(connection, address, self.dados)
+			processo_cliente.start()
+
 
 	# def __init__(cliente.interface.Interface:object interface):
 	# 	self.interface:object = interface
